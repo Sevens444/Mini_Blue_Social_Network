@@ -1,3 +1,9 @@
+
+File -> Settings -> Editor -> Natural Languages
+Добавьте русский язык и всё должно заработать.
+
+https://3.jetbra.in/
+
 need to delete these keys:
 
 HKEY_CLASSES_ROOT\Directory\shell\git_gui
