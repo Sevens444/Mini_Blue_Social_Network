@@ -1,0 +1,31 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: social_network
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - social_network
+
+  web:
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgres://postgres:password@db:5432/social_network
+    networks:
+      - social_network
+
+volumes:
+  pgdata:
+
+networks:
+  social_network:
+    driver: bridge
