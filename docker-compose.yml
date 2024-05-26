@@ -1,31 +1,35 @@
 services:
-  db:
+  mbsn_db:
     image: postgres:16
+    container_name: mbsn_db
+    restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: social_network
+      POSTGRES_DB: mbsn
+    ports:
+      - "5400:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     networks:
-      - social_network
+      - mbsn
 
-  web:
-    build: .
-    volumes:
-      - .:/app
-    ports:
-      - "5000:5000"
-    depends_on:
-      - db
-    environment:
-      DATABASE_URL: postgres://postgres:password@db:5432/social_network
-    networks:
-      - social_network
+#  web:
+#    build: .
+#    volumes:
+#      - .:/app
+#    ports:
+#      - "5000:5000"
+#    depends_on:
+#      - mbsn_db
+#    environment:
+#      DATABASE_URL: postgres://postgres:0123@mbsn_db:5400/mbsn
+#    networks:
+#      - mbsn
 
-volumes:
-  pgdata:
+#volumes:
+#  pgdata:
 
-networks:
-  social_network:
-    driver: bridge
+#networks:
+#  mbsn_db:
+#    driver: bridge

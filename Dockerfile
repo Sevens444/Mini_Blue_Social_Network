@@ -1,5 +1,5 @@
 # Используем официальный образ Python
-FROM python:3.9-slim
+FROM python:3.12-slim
 
 # Устанавливаем зависимости
 WORKDIR /app
@@ -10,8 +10,8 @@ RUN pip install -r requirements.txt
 COPY app /app
 
 # Добавляем скрипт начальной настройки
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+#COPY entrypoint.sh /entrypoint.sh
+#RUN chmod +x /entrypoint.sh
 
 # Запускаем скрипт начальной настройки
-ENTRYPOINT ["/entrypoint.sh"]
+#ENTRYPOINT ["/entrypoint.sh"]

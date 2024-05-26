@@ -1,5 +1,22 @@
-need to delete these keys:
 
+
+Использование нескольких схем
+    https://flask-sqlalchemy-russian.readthedocs.io/ru/latest/binds.html
+
+
+Установка пакетов через Windows PowerShell -> pip install
+Создание пустой бд
+python3
+from app import app, db
+app.app_context().push()
+db.create_all()
+
+File -> Settings -> Editor -> Natural Languages
+Добавьте русский язык и всё должно заработать.
+
+https://3.jetbra.in/
+
+need to delete these keys:
 HKEY_CLASSES_ROOT\Directory\shell\git_gui
 HKEY_CLASSES_ROOT\Directory\shell\git_shell
 HKEY_CLASSES_ROOT\LibraryFolder\background\shell\git_gui
