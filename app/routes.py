@@ -1,6 +1,7 @@
-from flask import Blueprint, jsonify, request, render_template, redirect, url_for
+from flask import Blueprint, jsonify, request, render_template, redirect, url_for, flash
 from app.models import db, Users, Profiles
 from datetime import datetime, timezone
+from sqlalchemy import text
 
 bp = Blueprint('main', __name__)
 
@@ -19,21 +20,25 @@ def register():
         try:
             new_user = Users(username=data['username'], password=data['password'])
             db.session.add(new_user)
-
-            print(new_user.id, new_user.username, new_user.password, new_user.date)
+            db.session.flush()
 
             new_profile = Profiles(name=data['name'], surname=data['surname'],
                                    birthday=data['birthday'], city=data['city'],
                                    user_id=new_user.id)
             db.session.add(new_profile)
-            print('3')
 
             db.session.commit()
+
+            # flash("logged in successfully", "success")
+            print(new_user)
+            print(new_profile)
+
         except Exception as e:
             db.session.rollback()
             print("Ошибка добавления в БД")
             print(e)
 
+        # flash("logged in successfully", "success")
         return redirect(url_for('main.index'))
     return render_template('register.html')
 
@@ -50,5 +55,6 @@ def login():
 
 @bp.route('/users', methods=['GET'])
 def get_users():
-    users = Users.query.all()
-    return jsonify([{'nickname': user.username, 'email': user.email} for user in users])
+    profiles = Profiles.query.all()
+    return jsonify([{'name': user.name, 'surname': user.surname,
+                     'birthday': user.birthday, 'city': user.city} for user in profiles])

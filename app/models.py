@@ -10,7 +10,12 @@ class Users(db.Model):
     date = db.Column(db.DateTime(), default=datetime.now(timezone.utc), nullable=False)
 
     def __repr__(self):
-        return f'<Users {self.username}>'
+        # representation
+        return f'Пользователь {self.username} {self.date}'
+
+    def __str__(self):
+        # representation
+        return f'[ + ] Пользователь добавлен: id {self.id} {self.username} {self.password} {self.date}'
 
 
 class Profiles(db.Model):
@@ -23,4 +28,7 @@ class Profiles(db.Model):
     user_id = db.Column(db.Integer(), db.ForeignKey('users.id'))
 
     def __repr__(self):
-        return f"<profiles {self.id}>"
+        return f"Профиль {self.name}  {self.surname}  {self.birthday}  {self.city}"
+
+    def __str__(self):
+        return f"[ + ] Профиль: id {self.id}-{self.user_id} {self.name}  {self.surname}  {self.birthday}  {self.city}"
