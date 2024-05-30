@@ -3,6 +3,21 @@
 {% block title %}Начало{% endblock %}
 
 {% block content %}
-<h1>Приветствую в Mini Blue Social Network!</h1>
-<p>Стартовая страница. Пройдите авторизацию или зарегистрируйтесь.</p>
+    {% if not current_user.is_authenticated %}
+        <h1>Приветствую в Mini Blue Social Network!</h1>
+        <p>Стартовая страница. <br>
+            Пройдите авторизацию или зарегистрируйтесь.</p>
+    {% else %}
+        <h1>Добро пожаловать в Mini Blue Social Network!</h1>
+        <p>Теперь можно начать чат.</p>
+        <p>Ваши данные:</p>
+        <ul>
+            <li>Пользователь - {{ user.username }}</li>
+            <li>Дата регистрации - {{ user.date.strftime("%Y.%m.%d %H:%M") }}</li>
+            <li>Имя - {{ profile.name }}</li>
+            <li>Фамилия - {{ profile.surname }}</li>
+            <li>День рождения - {{ profile.birthday.strftime("%Y.%m.%d") }}</li>
+            <li>Город - {{ profile.city }}</li>
+        </ul>
+    {% endif %}
 {% endblock %}

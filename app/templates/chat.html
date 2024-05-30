@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Чат{% endblock %}
+
+{% block content %}
+<h1>Чат</h1>
+<ul>
+    {% for user, profile in data %}
+    <li><a href="{{ url_for('main.messages', recipient=user.username) }}">{{ profile.name }}&emsp;{{ profile.surname }}&emsp;({{ user.username }})&emsp;{{ profile.city }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}
