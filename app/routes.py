@@ -1,8 +1,8 @@
 from flask import Blueprint, jsonify, request, render_template, redirect, url_for, flash
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
-from app.models import User, Profile, Message, db
-from app import login
+from models import User, Profile, Message, db
+from extensions import login
 from datetime import datetime
 import pytz
 from sqlalchemy import text
