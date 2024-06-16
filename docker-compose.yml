@@ -9,30 +9,31 @@ services:
       POSTGRES_PASSWORD: "0123"
       POSTGRES_DB: mbsn
     ports:
-      - "5432:5432"
+      - "5400:5432"
     networks:
       - net_mbsn
-#    volumes:
-#      - pgdata:/var/lib/postgresql/data
+    volumes:
+      - pgdata:/var/lib/postgresql/data
 
 
   mbsn_web:
     build: ./app
     container_name: mbsn_web
-#    restart: unless-stopped
-    #volumes:
-    #  - C:\Users\Ilia\Desktop\Mini_Blue_Social_Network:/app
+    restart: unless-stopped
+#    volumes:
+#      - /app
     depends_on:
       - mbsn_db
     environment:
       DATABASE_URL: postgresql://postgres:0123@mbsn_db:5432/mbsn
+      FLASK_DEBUG: 1
     ports:
       - "5000:5000"
     networks:
       - net_mbsn
 
-#volumes:
-#  pgdata:
+volumes:
+  pgdata:
 
 networks:
   net_mbsn:

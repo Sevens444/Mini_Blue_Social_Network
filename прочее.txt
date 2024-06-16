@@ -1,11 +1,11 @@
 
-
-docker-compose down
 docker-compose up --build
+docker-compose down
 
-docker-compose run web flask db init
-docker-compose run web flask db migrate -m "Add Flask-Login"
-docker-compose run web flask db upgrade
+flask db init    # выполняется только 1 раз при создании бд
+
+flask db migrate -m "Init db model with Users (v1), Profiles (v2), Messages (v3)"
+flask db upgrade
 
 
 Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
@@ -15,14 +15,14 @@ Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 
 
 Установка пакетов через Windows PowerShell -> pip install
-Создание пустой бд
+Создание пустой бд в файле
 python3
 from app import app, db
 app.app_context().push()
 db.create_all()
 
 File -> Settings -> Editor -> Natural Languages
-Добавьте русский язык и всё должно заработать.
+Добавить русский язык в typo
 
 https://3.jetbra.in/
 
