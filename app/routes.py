@@ -4,7 +4,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from models import User, Profile, Message, db
 from extensions import login
 from datetime import datetime
-import pytz
 from sqlalchemy import text
 
 bp = Blueprint('main', __name__)
@@ -80,18 +79,16 @@ def logout():
 def get_users():
     profiles = Profile.query.all()
     return jsonify([{'name': user.name, 'surname': user.surname,
-                     'birthday': user.birthday, 'city': user.city} for user in profiles])
+                     'birthday': user.birthday, 'city': user.city
+                     } for user in profiles])
 
 
 @bp.route('/chat', methods=['GET'])
 @login_required
 def chat():
-    # users = User.query.all()
-    users = User.query.all()
-    # profiles = Profile.query.filter_by(user_id!=current_user.id).all()
-    print([row for row in users])
-
-    data = db.session.query(User, Profile).filter(User.id != current_user.id).join(Profile, User.id == Profile.user_id).all()
+    data = (db.session.query(User, Profile).
+            filter(User.id != current_user.id).
+            join(Profile, User.id == Profile.user_id).all())
     return render_template('chat.html', data=data)
 
 
@@ -101,14 +98,17 @@ def messages(recipient):
     recipient_user = User.query.filter_by(username=recipient).first_or_404()
     if request.method == 'POST':
         content = request.form['content']
-        new_message = Message(sender_id=current_user.id, recipient_id=recipient_user.id, content=content)
+        new_message = Message(sender_id=current_user.id, recipient_id=recipient_user.id,
+                              content=content, timestamp=datetime.now())
         db.session.add(new_message)
         print(new_message)
         db.session.commit()
         return redirect(url_for('main.messages', recipient=recipient))
+
     messages_sent = Message.query.filter_by(sender_id=current_user.id, recipient_id=recipient_user.id).all()
     messages_received = Message.query.filter_by(sender_id=recipient_user.id, recipient_id=current_user.id).all()
     messages = messages_sent + messages_received
     messages.sort(key=lambda x: x.timestamp)
+
     return render_template('messages.html', messages=messages, recipient=recipient_user)
 

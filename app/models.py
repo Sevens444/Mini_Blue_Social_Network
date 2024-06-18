@@ -1,7 +1,6 @@
 from extensions import db
 from flask_login import UserMixin
 from datetime import datetime
-import pytz
 
 
 class User(UserMixin, db.Model):
@@ -10,7 +9,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(128), nullable=False)
     date = db.Column(db.DateTime(), nullable=False,
-                     default=datetime.now(pytz.timezone('Europe/Moscow')))
+                     default=datetime.now())
     messages_sent = db.relationship('Message', foreign_keys='Message.sender_id',
                                     backref='sender', lazy=True)
     messages_received = db.relationship('Message', foreign_keys='Message.recipient_id',
@@ -35,10 +34,11 @@ class Profile(db.Model):
     user_id = db.Column(db.Integer(), db.ForeignKey('users.id'))
 
     def __repr__(self):
-        return f'<Profile {self.name}  {self.surname}  {self.birthday.strftime("%Y.%m.%d")}  {self.city}>'
+        return (f'<Profile {self.name}  {self.surname}  ' +\
+                f'{self.birthday.strftime("%Y.%m.%d")}  {self.city}>')
 
     def __str__(self):
-        return (f'[ + ] Профиль: id {self.id} u_id {self.user_id} '
+        return (f'[ + ] Профиль: id {self.id} u_id {self.user_id} ' +\
                 f'{self.name} {self.surname} {self.birthday} {self.city}')
 
 
@@ -48,12 +48,12 @@ class Message(db.Model):
     sender_id = db.Column(db.Integer(), db.ForeignKey('users.id'), nullable=False)
     recipient_id = db.Column(db.Integer(), db.ForeignKey('users.id'), nullable=False)
     content = db.Column(db.String(500), nullable=False)
-    timestamp = db.Column(db.DateTime(), index=True,
-                          default=datetime.now(pytz.timezone('Europe/Moscow')), nullable=False)
+    timestamp = db.Column(db.DateTime(), index=True, nullable=False)
 
     def __repr__(self):
         return f'<Сообщение {self.content}>'
 
+    timestamp
     def __str__(self):
-        return (f'[ + ] Сообщение: id {self.id} s_id {self.sender_id} {self.recipient_id} '
+        return (f'[ + ] Сообщение: id {self.id} s_id {self.sender_id} {self.recipient_id} ' +\
                 f'{self.content} {self.timestamp}')
