@@ -17,11 +17,9 @@ services:
 
 
   mbsn_web:
-    build: ./app
     container_name: mbsn_web
     restart: unless-stopped
-#    volumes:
-#      - /app
+    build: ./app
     depends_on:
       - mbsn_db
     environment:
@@ -33,7 +31,7 @@ services:
       - net_mbsn
 
 volumes:
-  pgdata:
+  pgdata: {}
 
 networks:
   net_mbsn:

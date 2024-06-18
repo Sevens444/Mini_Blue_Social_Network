@@ -8,6 +8,11 @@ flask db migrate -m "Init db model with Users (v1), Profiles (v2), Messages (v3)
 flask db upgrade
 
 
+Выполнение кастомного sql запроса
+#     with app.app_context():
+#         result = db.session.execute(text('SELECT * FROM users'))
+#         print([row for row in result])
+
 Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 
 Использование нескольких схем
