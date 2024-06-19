@@ -8,6 +8,9 @@ flask db migrate -m "Init db model with Users (v1), Profiles (v2), Messages (v3)
 flask db upgrade
 
 
+
+padding: 10px; /* внутренние отступы */
+
 Выполнение кастомного sql запроса
 #     with app.app_context():
 #         result = db.session.execute(text('SELECT * FROM users'))

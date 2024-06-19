@@ -48,12 +48,11 @@ class Message(db.Model):
     sender_id = db.Column(db.Integer(), db.ForeignKey('users.id'), nullable=False)
     recipient_id = db.Column(db.Integer(), db.ForeignKey('users.id'), nullable=False)
     content = db.Column(db.String(500), nullable=False)
-    timestamp = db.Column(db.DateTime(), index=True, nullable=False)
+    timestamp = db.Column(db.DateTime(), index=True, nullable=False, default=datetime.now())
 
     def __repr__(self):
         return f'<Сообщение {self.content}>'
 
-    timestamp
     def __str__(self):
-        return (f'[ + ] Сообщение: id {self.id} s_id {self.sender_id} {self.recipient_id} ' +\
+        return (f'[ + ] Сообщение: id {self.id} s_id {self.sender_id} {self.recipient_id} ' + \
                 f'{self.content} {self.timestamp}')
